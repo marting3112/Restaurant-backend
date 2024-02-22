@@ -1,3 +1,5 @@
+require('./DataBase/sync.js');
+
 const connection = require('./DataBase/connection');
 const express = require ('express');
 const app = express();
