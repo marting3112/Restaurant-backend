@@ -41,6 +41,5 @@ restaurant.init({
     paranoid: true,
     deleteAt: 'destroyTime'
 });
-
 module.exports = restaurant;
 
