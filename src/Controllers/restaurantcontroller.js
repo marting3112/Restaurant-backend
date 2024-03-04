@@ -32,7 +32,7 @@ async function listRestaurant(req, res){
             attributes: [
                 'restaurantName',
                 'restaurantNit',
-                'restaurantAddres',
+                'restaurantAdress',
                 'restaurantPhone',
                 'cityId'
             ],
@@ -79,20 +79,20 @@ async function updateRestaurant(req, res){
 }
 
 async function disableRestaurant(req, res){
-    try {
+    try{
         await restaurant.destroy({
-            where: {restaurantId : req.params,restaurantId}
-        }).then(function(data){
+            where: { restaurantId : req.params.restaurantId}
+        }).then(function (data){
             return res.status(200).json({
                 data: data
             });
         }).catch(error => {
             return res.status(400).json({
-                error:error
+                error: error
             });
         })
-        
-    } catch (e) {
+    }
+    catch(e){
         console.log(e);
     }
 }
