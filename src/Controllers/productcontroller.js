@@ -1,20 +1,19 @@
 require('express');
+const product = require('../Models/product');
 const restaurant = require('../Models/restaurant');
 
-//create restaurant
-async function createRestaurant(req, res){
+async function createProduct(req, res){
     try{
-        await restaurant.create({
-            restaurantName: req.body.restaurantName,
-            restaurantNit : req.body.restaurantNit,
-            restaurantAddress: req.body.restaurantAddress,
-            restaurantPhone: req.body.restaurantPhone,
-            cityId: req.body.cityId
+        await product.create({
+            productName : req.body.productName,
+            productDescription : req.body.productDescription,
+            productPrice : req.body.productPrice,
+            restaurantId : req.body.restaurantId
         }).then(function (data){
             return res.status(200).json({
                 data: data
             });
-        }).catch(error =>{
+        }).catch(error => {
             return res.status(400).json({
                 error: error
             });
@@ -25,18 +24,21 @@ async function createRestaurant(req, res){
     }
 }
 
-async function listRestaurant(req, res){
+async function listProducts(req, res){
     try{
-        await restaurant.findAll({
+        await product.findAll({
             attributes: [
-                'restaurantId',
-                'restaurantName',
-                'restaurantNit',
-                'restaurantAddress',
-                'restaurantPhone',
-                'cityId'
+                'productId',
+                'productName',
+                'productDescription',
+                'productPrice'
             ],
-            order: ['restaurantName']
+            order: ['productName'],
+            include: {
+                model: restaurant,
+                where: { restaurantId : req.params.restaurantId },
+                attributes: ['restaurantName']
+            }
         }).then(function (data){
             return res.status(200).json({
                 data: data
@@ -52,15 +54,15 @@ async function listRestaurant(req, res){
     }
 }
 
-async function updateRestaurant(req, res){
+async function updateProduct(req, res){
     try{
-        await restaurant.update({
-            restaurantName: req.body.restaurantName,
-            restaurantAddress: req.body.restaurantAddress,
-            restaurantPhone: req.body.restaurantPhone,
-            cityId: req.body.cityId
+        await product.update({
+            productName : req.body.productName,
+            productDescription : req.body.productDescription,
+            productPrice : req.body.productPrice,
+            restaurantId : req.body.restaurantId
         },{ 
-            where: { restaurantId :  req.params.restaurantId }
+            where: { productId :  req.params.productId }
         }).then(function (data){
             return res.status(200).json({
                 data: data
@@ -76,10 +78,10 @@ async function updateRestaurant(req, res){
     }
 }
 
-async function disableRestaurant(req, res){
+async function disableProduct(req, res){
     try{
-        await restaurant.destroy({
-            where: { restaurantId : req.params.restaurantId}
+        await product.destroy({
+            where: { productId :  req.params.productId }
         }).then(function (data){
             return res.status(200).json({
                 data: data
@@ -95,10 +97,10 @@ async function disableRestaurant(req, res){
     }
 }
 
-async function enableRestaurant(req, res){
+async function enableProduct(req, res){
     try{
-        await restaurant.restore({
-            where: { restaurantId : req.params.restaurantId}
+        await product.restore({
+            where: { productId :  req.params.productId }
         }).then(function (data){
             return res.status(200).json({
                 data: data
@@ -115,9 +117,9 @@ async function enableRestaurant(req, res){
 }
 
 module.exports = {
-    createRestaurant,
-    listRestaurant,
-    updateRestaurant,
-    disableRestaurant,
-    enableRestaurant
+    createProduct,
+    listProducts,
+    updateProduct,
+    disableProduct,
+    enableProduct
 }

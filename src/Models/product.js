@@ -6,7 +6,7 @@ class product extends Model{
 }
 
 product.init({
-    productId:{
+    productId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -21,9 +21,9 @@ product.init({
     },
     productPrice: {
         type: DataTypes.FLOAT,
-        allowNull:false
-    }, 
-    restaurantId: {
+        allowNull: false
+    },
+    restaurantId:{
         type: DataTypes.INTEGER,
         allowNull: false
     }
@@ -33,4 +33,5 @@ product.init({
     paranoid: true,
     deletedAt: 'destroyTime'
 });
+
 module.exports = product;
