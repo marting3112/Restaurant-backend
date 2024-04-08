@@ -1,6 +1,5 @@
 require('express');
 const department = require('../Models/department');
-
 async function listDepartments(req, res){
     try{
         await department.findAll({
@@ -23,7 +22,6 @@ async function listDepartments(req, res){
         console.log(e);
     }
 }
-
 module.exports = {
     listDepartments
 }
